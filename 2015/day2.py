@@ -1015,10 +1015,26 @@ def get_sqft_needed(x, y, z):
     return (2 * total) + min_area
 
 
+def get_ft_needed(x, y, z):
+    inp_list = [x, y, z]
+    bow_length = math.prod(inp_list)
+    min1 = min(inp_list)
+    inp_list.remove(min1)
+    min2 = min(inp_list)
+    return (min1 * 2) + (min2 * 2) + bow_length
+
+
 if __name__ == "__main__":
     print(
         sum(
             get_sqft_needed(*[int(x) for x in line.split("x")])
+            for line in input.splitlines()
+        )
+    )
+
+    print(
+        sum(
+            get_ft_needed(*[int(x) for x in line.split("x")])
             for line in input.splitlines()
         )
     )
