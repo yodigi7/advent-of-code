@@ -1024,17 +1024,11 @@ def get_ft_needed(x, y, z):
     return (min1 * 2) + (min2 * 2) + bow_length
 
 
-if __name__ == "__main__":
-    print(
-        sum(
-            get_sqft_needed(*[int(x) for x in line.split("x")])
-            for line in input.splitlines()
-        )
-    )
+def yield_generator(fn):
+    for line in input.splitlines():
+        yield fn(*[int(x) for x in line.split("x")])
 
-    print(
-        sum(
-            get_ft_needed(*[int(x) for x in line.split("x")])
-            for line in input.splitlines()
-        )
-    )
+
+if __name__ == "__main__":
+    print(f"Total paper sqft needed: {sum(yield_generator(get_sqft_needed))}")
+    print(f"Total ribbon ft needed: {sum(yield_generator(get_ft_needed))}")
