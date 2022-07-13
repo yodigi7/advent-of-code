@@ -1005,23 +1005,16 @@ input = """20x3x11
 """
 
 
-def get_sqft_needed(x, y, z):
-    total = 0
-    min_area = math.inf
-    for combination in combinations((x, y, z), 2):
-        area = mul(*combination)
-        total += area
-        min_area = min(min_area, area)
-    return (2 * total) + min_area
+def get_sqft_needed(*args):
+    areas = [mul(x[0], x[1]) for x in combinations(args, 2)]
+    return (2 * sum(areas)) + min(areas)
 
 
-def get_ft_needed(x, y, z):
-    inp_list = [x, y, z]
-    bow_length = math.prod(inp_list)
+def get_ft_needed(*args):
+    inp_list = list(args)
     min1 = min(inp_list)
     inp_list.remove(min1)
-    min2 = min(inp_list)
-    return (min1 * 2) + (min2 * 2) + bow_length
+    return (min1 * 2) + (min(inp_list) * 2) + math.prod(args)
 
 
 def yield_generator(fn):
