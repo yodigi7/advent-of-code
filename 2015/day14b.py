@@ -1,11 +1,6 @@
 from dataclasses import dataclass
 
 
-# input = """Vixen can fly 2 km/s for 1 seconds, but then must rest for 2 seconds.
-# """
-# input = """Vixen can fly 14 km/s for 10 seconds, but then must rest for 127 seconds.
-# Rudolph can fly 16 km/s for 11 seconds, but then must rest for 162 seconds.
-# """
 input = """Vixen can fly 19 km/s for 7 seconds, but then must rest for 124 seconds.
 Rudolph can fly 3 km/s for 15 seconds, but then must rest for 28 seconds.
 Donner can fly 19 km/s for 9 seconds, but then must rest for 164 seconds.
@@ -19,7 +14,6 @@ Prancer can fly 25 km/s for 6 seconds, but then must rest for 143 seconds.
 
 
 final_time = 2503
-# final_time = 1000
 
 
 @dataclass
