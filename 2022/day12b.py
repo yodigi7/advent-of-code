@@ -19,10 +19,18 @@ if __name__ == "__main__":
                 digit_line.append(ord(c) - 97)
         num_grid.append(digit_line)
     graph = {}
+
+    tries = []
+    places_visited = set()
+    places_visited.add(start_coord)
+
     for i, _ in enumerate(num_grid):
         for j, c in enumerate(num_grid[i]):
             potential_moves = []
             current_elevation = num_grid[i][j]
+            if current_elevation == 0:
+                tries.append(((i, j), 0))
+                places_visited.add((i, j))
             if i - 1 >= 0 and num_grid[i - 1][j] - 1 <= current_elevation:
                 potential_moves.append((i - 1, j))
             if i + 1 < len(grid) and num_grid[i + 1][j] - 1 <= current_elevation:
@@ -33,9 +41,7 @@ if __name__ == "__main__":
                 potential_moves.append((i, j + 1))
             graph[(i, j)] = potential_moves
 
-    tries = [( start_coord, 0 )]
-    places_visited = set()
-    places_visited.add(start_coord)
+
     while True:
         current_try = tries[0]
         tries = tries[1:]
