@@ -9,6 +9,43 @@ import (
 	"time"
 )
 
+func ReadFileIntGrid(filename string) ([][]int, error) {
+	file, err := os.Open(filename)
+	if err != nil {
+		return nil, err
+	}
+	defer file.Close()
+
+	var result [][]int
+	var currentRow []int
+
+	reader := bufio.NewReader(file)
+	for {
+		char, _, err := reader.ReadRune()
+		if err != nil {
+			if err.Error() == "EOF" { // Handle EOF properly
+				break
+			}
+			return nil, err // Return actual errors
+		}
+
+		if char == '\n' {
+			if len(currentRow) > 0 { // Avoid adding empty rows from consecutive newlines
+				result = append(result, currentRow)
+				currentRow = nil
+			}
+		} else if char != '\r' { // Ignore carriage return
+			currentRow = append(currentRow, int(char-'0'))
+		}
+	}
+
+	// Append the last row if it contains any data
+	if len(currentRow) > 0 {
+		result = append(result, currentRow)
+	}
+
+	return result, nil
+}
 func ReadFileCharByChar(filename string) ([][]string, error) {
 	file, err := os.Open(filename)
 	if err != nil {
@@ -46,41 +83,6 @@ func ReadFileCharByChar(filename string) ([][]string, error) {
 
 	return result, nil
 }
-
-// func ReadFileCharByChar(filename string) ([][]string, error) {
-// 	file, err := os.Open(filename)
-// 	if err != nil {
-// 		return nil, err
-// 	}
-// 	defer file.Close()
-
-// 	var result [][]string
-// 	var currentRow []string
-
-// 	// Using bufio.Reader to read one character at a time
-// 	reader := bufio.NewReader(file)
-// 	for {
-// 		char, _, err := reader.ReadRune() // Read one rune (character)
-// 		if err != nil {
-// 			break
-// 		}
-
-// 		// Example logic: when the character is a newline, start a new row
-// 		if char == '\n' {
-// 			result = append(result, currentRow) // Append the current row
-// 			currentRow = nil                    // Reset the current row
-// 		} else {
-// 			currentRow = append(currentRow, string(char)) // Add the character to the row
-// 		}
-// 	}
-
-// 	// Add the last row if any
-// 	if len(currentRow) > 0 {
-// 		result = append(result, currentRow)
-// 	}
-
-// 	return result, nil
-// }
 
 // ReadFileLines reads a file and returns its lines as a slice of strings
 func ReadFileLines(filename string) ([]string, error) {
